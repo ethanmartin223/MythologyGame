@@ -26,6 +26,8 @@ public class MainApp extends ApplicationAdapter {
 		shapeRenderer.setColor(Color.WHITE);
 		int x = 50;
 		int y = 50;
+		int dx = 0;
+		int dy = 0;
 		int line_length = 200;
 		double angle_in_radians;
 		for (float rotation=0; rotation<= 360; rotation+=1) {
@@ -34,7 +36,7 @@ public class MainApp extends ApplicationAdapter {
 
 		}
 		shapeRenderer.end();
-		world.render();
+		world.render(shapeRenderer);
 	}
 
 	
