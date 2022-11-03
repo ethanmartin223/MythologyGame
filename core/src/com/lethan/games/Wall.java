@@ -24,5 +24,7 @@ public class Wall {
     public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.rect(x,y,width,height);
+        shapeRenderer.end();
     }
 }
