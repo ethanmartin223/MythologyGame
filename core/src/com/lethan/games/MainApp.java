@@ -10,11 +10,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainApp extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
+	World world;
 
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
-		World world = new World(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		world = new World(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		world.createWall(80,80,10,10);
 	}
 
 	@Override
@@ -32,6 +34,7 @@ public class MainApp extends ApplicationAdapter {
 
 		}
 		shapeRenderer.end();
+		world.render();
 	}
 
 	

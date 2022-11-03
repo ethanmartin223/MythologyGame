@@ -30,7 +30,7 @@ public class World {
 
     public void render(ShapeRenderer shapeRenderer) {
         for (Wall wall : wallList) {
-            wall.render();
+            wall.render(shapeRenderer);
         }
     }
 
