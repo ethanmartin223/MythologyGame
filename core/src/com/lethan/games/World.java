@@ -18,10 +18,11 @@ public class World {
     }
 
     public void createWall(int wx, int wy, int w, int h) {
-        wallList.add(new Wall(wx, wy, w, h));
+        wallList.add(new Wall(this, wx, wy, w, h));
     }
 
-    public boolean intersectingWall(int x, int y) {
+    public boolean intersectingWall(double x, double y) {
+        if (0 > x || 0 > y || x > width || y > height) return true;
         for (Wall wall : wallList) {
             if (wall.containsPoint(x, y)) return true;
         }

@@ -3,6 +3,7 @@ package com.lethan.games;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,12 +12,18 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class MainApp extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 	World world;
+	OrthographicCamera camera;
 
 	@Override
 	public void create () {
+		camera = new OrthographicCamera();
+		camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
 		shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setProjectionMatrix(camera.combined);
+
 		world = new World(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		world.createWall(80,80,10,10);
+		world.createWall(200,200,100,100);
 	}
 
 	@Override
@@ -24,16 +31,20 @@ public class MainApp extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0, 1);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 		shapeRenderer.setColor(Color.WHITE);
-		int x = 50;
-		int y = 50;
-		int dx = 0;
-		int dy = 0;
-		int line_length = 200;
-		double angle_in_radians;
-		for (float rotation=0; rotation<= 360; rotation+=1) {
-			angle_in_radians = rotation * Math.PI / 180;
-			shapeRenderer.line(x,y,(float)(x + line_length *  Math.cos(angle_in_radians)), (float)(y + line_length * Math.sin(angle_in_radians)));
-
+		int x = Gdx.input.getX();
+		int y = Gdx.input.getY();
+		float dx;
+		float dy;
+		float a;
+		for (double r=0; r<= 360; r+=1) {
+			dx = x;
+			dy = y;
+			a = (float) (r * (Math.PI / 180F));
+			while (!world.intersectingWall(dx,dy)) {
+				dx += Math.cos(a);
+				dy += Math.sin(a);
+			}
+			shapeRenderer.line(x, y, dx, dy);
 		}
 		shapeRenderer.end();
 		world.render(shapeRenderer);
