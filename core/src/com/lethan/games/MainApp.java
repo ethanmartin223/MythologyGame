@@ -40,19 +40,25 @@ public class MainApp extends ApplicationAdapter {
 		float dx;
 		float dy;
 		float a;
-		int lightDistance = 120;
-		for (double r=0; r<= 360; r+=.09) {
+		int lightDistance = 300;
+		for (double r=0; r<= 360; r+=.1) {
 			dx = x;
 			dy = y;
 			a = (float) (r * (Math.PI / 180F));
-			while ((!world.intersectingWall(dx,dy)) && Math.sqrt(Math.pow((x - dx),2) + Math.pow((y-dy),2)) < lightDistance) {
+			while (true) {
 				dx += Math.cos(a);
 				dy += Math.sin(a);
+				if (world.intersectingWall(dx,dy)) {
+					if (Math.sqrt(Math.pow((x - dx),2) + Math.pow((y-dy),2)) < lightDistance) {
+						shapeRenderer.point(dx, dy, 0);
+					}
+					shapeRenderer.line(x,y,dx,dy);
+					break;
+				}
 			}
-			shapeRenderer.line(x, y, dx, dy, Color.DARK_GRAY, Color.BLACK);
 		}
 		shapeRenderer.end();
-		world.render(shapeRenderer);
+		//world.render(shapeRenderer);
 	}
 
 	
