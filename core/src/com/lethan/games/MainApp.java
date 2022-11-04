@@ -49,7 +49,7 @@ public class MainApp extends ApplicationAdapter {
 				dx += Math.cos(a);
 				dy += Math.sin(a);
 			}
-			shapeRenderer.line(x, y, dx, dy, Color.WHITE, Color.BLACK);
+			shapeRenderer.line(x, y, dx, dy, Color.DARK_GRAY, Color.BLACK);
 		}
 		shapeRenderer.end();
 		world.render(shapeRenderer);
