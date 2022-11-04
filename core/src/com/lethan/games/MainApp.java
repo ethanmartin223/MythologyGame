@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainApp extends ApplicationAdapter {
@@ -23,28 +24,32 @@ public class MainApp extends ApplicationAdapter {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 
 		world = new World(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		world.createWall(200,200,100,100);
+		world.createWall(200,200,30,30);
+		world.createWall(250,250,30,30);
+		world.createWall(300,120,30,30);
+
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-		shapeRenderer.setColor(Color.WHITE);
+		shapeRenderer.setColor(1,1,1,1);
 		int x = Gdx.input.getX();
 		int y = Gdx.input.getY();
 		float dx;
 		float dy;
 		float a;
-		for (double r=0; r<= 360; r+=1) {
+		int lightDistance = 120;
+		for (double r=0; r<= 360; r+=.09) {
 			dx = x;
 			dy = y;
 			a = (float) (r * (Math.PI / 180F));
-			while (!world.intersectingWall(dx,dy)) {
+			while ((!world.intersectingWall(dx,dy)) && Math.sqrt(Math.pow((x - dx),2) + Math.pow((y-dy),2)) < lightDistance) {
 				dx += Math.cos(a);
 				dy += Math.sin(a);
 			}
-			shapeRenderer.line(x, y, dx, dy);
+			shapeRenderer.line(x, y, dx, dy, Color.WHITE, Color.BLACK);
 		}
 		shapeRenderer.end();
 		world.render(shapeRenderer);
